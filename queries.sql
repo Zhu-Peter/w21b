@@ -40,3 +40,30 @@ insert into quote (philosopher_id, content) values
     (3, "Entities should not be multiplied unnecessarily"),
     (1, "There is only one good, knowledge, and one evil, ignorance"),
     (2, "Philosophy is a battle against the bewitchment of our intelligence by means of language");
+
+DELIMITER $$
+$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `w21b`.`new_philosopher`(name_input varchar(255), bio_input varchar(255), date_of_birth_input int, date_of_death_input int, image_url_input varchar(255))
+begin
+    insert into philosopher (name, bio, date_of_birth, date_of_death, image_url) values (name_input, bio_input, date_of_birth_input, date_of_death_input, image_url_input);
+    select id from quote order by id desc limit 1
+end$$
+DELIMITER ;
+
+create procedure get_all_philosopher()
+    select * from philosopher;
+
+DELIMITER $$
+$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `w21b`.`new_quote`(philosopher_id_input int, content_input varchar(255))
+begin
+    insert into quote (philosopher_id, content) values (philosopher_id_input, content_input);
+    select id from quote order by id desc limit 1
+end$$
+DELIMITER ;
+
+create procedure get_philosopher_quote(philosopher_id_input int)
+    select * from quote where philosopher_id = philosopher_id_input;
+
+-- select id from quote order by id desc limit 1;
+
